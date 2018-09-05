@@ -12,7 +12,7 @@ import java.util.Map;
 public class RequisicaoCliente implements Observer, Observable {
     /*
     Esta Classe é responsável por receber as requisições dos Clientes e
-    repassar para o Observador, a classe RespostaCliente, para então lá serem
+    repassar para o Observador, a classe RespostaServidor, para então lá serem
     tratadas essas requisições.    
     */
 
