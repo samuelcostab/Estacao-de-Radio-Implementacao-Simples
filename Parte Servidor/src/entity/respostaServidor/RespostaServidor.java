@@ -14,9 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RespostaServidor implements Observer{
-    Thread t;
-    String[] request;
-    int portUDP;
+    /*
+    Esta Classe é responsável por tratar as requisições dos Clientes e
+    responder para o cliente ou encaminhar para o Observador, a classe Estação, os clientes
+    que solicitaram sua sintonia, para que assim possa ouvir as músicas.
+    */
+    
+    private Thread t;
+    private String[] request;
+    private int portUDP;
     private ArrayList<Estacao> estacoesDisponivel = new <Estacao>ArrayList();
     
     public RespostaServidor (ArrayList<Estacao> estacoes){
@@ -27,18 +33,17 @@ public class RespostaServidor implements Observer{
         t = new Thread(){
             @Override
             public void run() {
-                //System.out.println("3)Mod de Resposta iniciado!");
                 try {
-                    DataOutputStream output = new DataOutputStream(socket.getOutputStream());//Objeto de envio de mensagemTCP
+                    DataOutputStream output = new DataOutputStream(socket.getOutputStream());
                     int commandType = Integer.parseInt(request[0]);//Tipo de Comando a executar
                     switch (commandType) {
                         case 0:
-                            enviaMensagem(output, welcome(estacoesDisponivel.size()));//Envia Welcome com qtd de Estações
+                            enviaMensagem(output, welcome(estacoesDisponivel.size()));
                             break;
                         case 1:
                             int numStation = Integer.parseInt(request[1]) - 1;
                             if (numStation >= 0 && numStation < 2) {
-                                enviaMensagem(output, annouce(numStation));//Mensagem de Confirmação ao cliente.
+                                enviaMensagem(output, annouce(numStation));
                                 estacoesDisponivel.get(numStation).addCliente(socket, portUDP);
                                 
                             } else {
@@ -77,7 +82,7 @@ public class RespostaServidor implements Observer{
     
     @Override
     public void upDate(Object ob, Object ob2) {
-        request = (String[]) ob2;//A Porta UDP do socket vem na requisição HELLO
+        request = (String[]) ob2;/
         Socket socket = (Socket) ob;
         if (Integer.parseInt(request[1]) > 10){//Controle para identificar a Requisição
             portUDP = Integer.parseInt(request[1]);
@@ -93,13 +98,13 @@ public class RespostaServidor implements Observer{
 
     }
 
-    private String welcome(int numStations) {//"Resposta" após o cliente conectar-se ao servidor(HANDSHAKE)
+    private String welcome(int numStations) {
         String msg = "0 " + numStations;
 
         return msg;
     }
 
-    private String annouce(int station) {//"Resposta" Ao cliente setar uma estação ou, ao a estação mudar a musica executada
+    private String annouce(int station) {
         String msg = "1 ";
 
         msg += estacoesDisponivel.get(station).getNomeMusic().length() + " ";
@@ -109,7 +114,7 @@ public class RespostaServidor implements Observer{
         return msg;
     }
 
-    private String invalidCommand(int replySize, String reply) {//Quando recebido um comando Inválido
+    private String invalidCommand(int replySize, String reply) {
         String msg = "2 " + replySize + " " + reply;
 
         return msg;
