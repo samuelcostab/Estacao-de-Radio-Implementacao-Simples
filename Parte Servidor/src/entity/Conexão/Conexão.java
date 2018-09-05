@@ -1,4 +1,4 @@
-package entity.Conexão;
+﻿package entity.Conexão;
 
 import interfaces.Observable;
 import interfaces.Observer;
@@ -9,6 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conexão implements Observable{
+	/*
+	Esta Classe é responsável por estabelecer a conexão do Cliente com o Servidor.
+	Basicamente ela recebe a solicitação do Cliente (via TCP) e repassa para o
+	Observador, a classe de RequisiçãoCliente, informando:"Tem um novo cliente 
+	conectado, você ja pode receber as requisições dele".
+
+	*/
+
     Thread t;
     Observer observador;
     ServerSocket server;
@@ -19,7 +27,7 @@ public class Conexão implements Observable{
             @Override
             public void run(){
                 try {
-                    while(true){//Aceita Conexões e Notifica ao Observador o socket de conexão
+                    while(true){
                         Socket socket = server.accept();
                         notifyObservers(socket);
                     }
