@@ -17,9 +17,9 @@ public class Conexão implements Observable{
 
 	*/
 
-    Thread t;
-    Observer observador;
-    ServerSocket server;
+    private Thread t;
+    private Observer observador;
+    private ServerSocket server;
     
     public Conexão(ServerSocket socketServer){
         this.server = socketServer;
@@ -71,6 +71,16 @@ public class Conexão implements Observable{
     public void notifyObservers(Object ob, Object ob2) {
     }
 
+    //Geters
+    public Thread getThread(){
+	    return this.t;
+    }
+    public Observer getObservador{
+	    return this.observador;
+    }
+    public ServerSocket getServerSocket(){
+	    return this.server;
+    }
     
     
     
