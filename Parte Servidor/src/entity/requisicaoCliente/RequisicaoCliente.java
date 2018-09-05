@@ -10,29 +10,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequisicaoCliente implements Observer, Observable {
+    /*
+    Esta Classe é responsável por receber as requisições dos Clientes e
+    repassar para o Observador, a classe RespostaCliente, para então lá serem
+    tratadas essas requisições.    
+    */
 
-    ArrayList<Observer> observadores = new ArrayList<>();
-    Thread t;
-    Map<Integer, Socket> clientes = new HashMap<Integer, Socket>();
-    String[] request;
+    private ArrayList<Observer> observadores = new ArrayList<>();
+    private Thread t;
+    private Map<Integer, Socket> clientes = new HashMap<Integer, Socket>();
+    private String[] request;
 
     private void iniciaModulo(Socket socket) {
         t = new Thread() {
             @Override
             public void run() {
-                //System.out.println("2)Mod de Requisição iniciado!");
-                // System.out.println("Requisições do Cliente:" + socket.getPort());
                 DataInputStream input;
                 try {
-                    input = new DataInputStream(socket.getInputStream());//Objeto para receber as msg's ;
+                    input = new DataInputStream(socket.getInputStream());
                     while (clientes.containsKey(socket.getPort())) {
-                        String msgCliente = recebeMensagem(input);//Recebe a Msg do Cliente
+                        String msgCliente = recebeMensagem(input);//Recebe a mensagem que o Cliente enviar.
                         request = msgCliente.split(" ");
-                        notifyObservers(socket, request);//Notifica Módulo 3
+                        notifyObservers(socket, request);
                     }
 
                 } catch (IOException ex) {
-                    //System.out.println("2)Cliente:" + socket.getPort() + " foi Desconectado!");
                     Socket s = clientes.remove(socket.getPort());
                     notifyObservers(s);
                 } finally {
