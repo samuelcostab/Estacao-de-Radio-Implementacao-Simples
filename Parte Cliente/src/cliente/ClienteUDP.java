@@ -11,6 +11,12 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 public class ClienteUDP {
+    
+    /*
+    Esta Classe é responsável por receber os dados que a Estação
+    enviar e assim reproduzir, "Tocando a música". 
+    */
+    
     private DatagramSocket socketUDP;
 
     public ClienteUDP() throws SocketException{
