@@ -10,6 +10,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClienteTCP {
+    
+    /*
+    Esta Classe é responsável por conectar-se ao servidor
+    e manter boa parte da comunicação, representando o Cliente.    
+    */
 
     private static Scanner scan;
     private Socket socket;
@@ -46,7 +51,7 @@ public class ClienteTCP {
             try {
                 socket.close();
             } catch (IOException ex1) {
-                //Logger.getLogger(ClienteTCP.class.getName()).log(Level.SEVERE, null, ex1);
+
             }
         }
 
@@ -105,12 +110,12 @@ public class ClienteTCP {
 
         ClienteTCP cliente = new ClienteTCP(13002);//ConexãoTCP na porta do Servidor(13002)
         ClienteUDP clienteUDP = new ClienteUDP();//ConexãoUDP
-        cliente.setPortUDP(clienteUDP.getSocketUDP().getLocalPort());//Regista a portaUDP do ClienteTCP com a porta do ClienteUDP
+        cliente.setPortUDP(clienteUDP.getSocketUDP().getLocalPort());//Regista a portaUDP do Cliente com a porta do socketUDP
 
-        DataOutputStream output = new DataOutputStream(cliente.getSocket().getOutputStream());//Objeto para Enviar msg para o Servidor
-        DataInputStream input = new DataInputStream(cliente.getSocket().getInputStream());//Objeto para Receber msg do Servidor
+        DataOutputStream output = new DataOutputStream(cliente.getSocket().getOutputStream());
+        DataInputStream input = new DataInputStream(cliente.getSocket().getInputStream());
 
-        cliente.enviaMensagem(output, cliente.hello());//Envia o Hello para o Servidor
+        cliente.enviaMensagem(output, cliente.hello());
         cliente.clienteConectado(cliente, clienteUDP, output, input);//Executa o Protocolo do cliente conectado
 
         output.close();
