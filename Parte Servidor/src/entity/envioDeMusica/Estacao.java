@@ -18,7 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Estacao implements Observer {
-    Thread t, t2;
+    /*
+    Esta Classe é responsável por "Tocar Musica" para os clientes conectados nela. 
+    Enviando os dados (música em vetores de bytes) pela conexão UDP.    
+    */
+    
+    private Thread t, t2;
     private ArrayList<Socket> clientes = new ArrayList<>();
     private Map<Integer, Integer> portasUDP = new HashMap<>();
     private DatagramSocket socketUDP;
@@ -38,7 +43,7 @@ public class Estacao implements Observer {
                     @Override
                     public void run() {
                         try {
-                            tocaMusica();//Fica tocando a música infinitas vezes
+                            tocaMusica();//toca a música infinitas vezes
                         } catch (InterruptedException ex) {
                             
                         }
@@ -85,7 +90,7 @@ public class Estacao implements Observer {
     private void tocaMusica() throws InterruptedException {
         while (true) {
             for (int i = 0; i < musicParts.size(); i++) {
-                Thread.sleep(2650);
+                Thread.sleep(2650);//Tempo calculado para cada parte da musica ser executada
                 contadorByte = i;
             }
         }
@@ -155,7 +160,6 @@ public class Estacao implements Observer {
 
     @Override
     public void upDate(Object ob, Object ob2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getNomeMusic() {
