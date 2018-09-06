@@ -13,7 +13,7 @@ public class ClienteTCP {
     
     /*
     Esta Classe é responsável por conectar-se ao servidor
-    e manter boa parte da comunicação, representando o Cliente.    
+    e manter boa parte da comunicação executando o protocolo do Cliente.    
     */
 
     private static Scanner scan;
